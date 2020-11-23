@@ -1,0 +1,29 @@
+{
+  "name": "se3316-hhehar4-lab5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.15",
+    "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "validator": "^13.1.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hhehar4/se3316-hhehar4-lab5.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hhehar4/se3316-hhehar4-lab5/issues"
+  },
+  "homepage": "https://github.com/hhehar4/se3316-hhehar4-lab5#readme"
+}
