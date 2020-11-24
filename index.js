@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 dotenv.config();
 
@@ -20,7 +21,13 @@ const users = require('./routes/users');
 
 const app = express();
 const port = 3000;
+
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
+
 app.use(cors());
 
 app.use('/', express.static(__dirname + '/MyApp')); 
