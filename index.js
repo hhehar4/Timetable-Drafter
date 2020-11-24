@@ -1,11 +1,8 @@
 const express = require('express');
-const fs = require('fs');
 const bodyParser = require('body-parser');
-const validator = require('validator');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 dotenv.config();
@@ -33,16 +30,12 @@ require('./config/passport')(passport);
 
 app.use(cors());
 
-app.use('/', express.static(__dirname + '/MyApp/src')); 
+app.use('/', express.static(__dirname + '/dist/src')); 
 
 app.use('/users', users);
 app.use('/general', general);
 app.use('/secure', secure);
 app.use('/admin', admin);
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
