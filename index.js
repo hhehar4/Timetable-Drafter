@@ -18,9 +18,12 @@ mongoose.connect(
 );
 
 const users = require('./routes/users');
+const general = require('./routes/general');
+const secure = require('./routes/secure');
+const admin = require('./routes/admin');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -30,9 +33,12 @@ require('./config/passport')(passport);
 
 app.use(cors());
 
-app.use('/', express.static(__dirname + '/MyApp')); 
+app.use('/', express.static(__dirname + '/MyApp/src')); 
 
 app.use('/users', users);
+app.use('/general', general);
+app.use('/secure', secure);
+app.use('/admin', admin);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
