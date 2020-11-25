@@ -1,0 +1,17 @@
+  
+.example-icon {
+    padding: 0 14px;
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  
+  .title {
+    font-size: 25px;
+    background-color:#303f9f;
+  }
+
+  .content {
+    margin-left: 10px;
+  }
