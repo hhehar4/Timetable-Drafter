@@ -11,9 +11,7 @@
     font-size: 25px;
     background-color:#303f9f;
   }
-  /*
+  
   .content {
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-  }*/
+    margin: 5px;
+  }
