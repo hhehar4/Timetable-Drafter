@@ -2,9 +2,11 @@ const express = require('express');
 const validator = require('validator');
 const router = express.Router();
 const fs = require('fs');
+var stringSimilarity = require('string-similarity');
 const data = fs.readFileSync('./Lab3-timetable-data.json', 'utf8');
 const timetable = JSON.parse(data);
 
+//Search for subject/course
 router.get('/times/:flag/:input1?/:input2?', (req, res) => {
     let firstPass = [];
     let secondPass = [];
@@ -64,6 +66,21 @@ router.get('/times/:flag/:input1?/:input2?', (req, res) => {
     } else {  
         res.status(404).send(`Error`);
     }
+});
+
+//Softmatch Search
+router.get('/keyword/:input', (req, res) => {
+    let keyword = validator.escape(validator.trim(req.params.input));
+    let keywordLen = validator.isLength(keyword, 4);
+    let entries = [];
+    
+    timetable.forEach(e => {
+        if((stringSimilarity.compareTwoStrings(keyword, String(e.catalog_nbr)) >= 0.6) || (stringSimilarity.compareTwoStrings(keyword, String(e.className)) >= 0.6) || (String(e.catalog_nbr)).indexOf(keyword) >= 0 || (String(e.className)).indexOf(keyword) >= 0) {
+            entries.push(e);
+        }
+    });
+
+    res.send(entries);
 });
 
 module.exports = router; 
