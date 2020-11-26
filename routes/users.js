@@ -43,21 +43,24 @@ router.post('/authenticate', (req, res, next) => {
         if(!user) {
             res.json({success: false, msg: 'No such user'});
         }
-        const validPass = bcrypt.compare(password, user.password);
-        if(err) throw err;
-        if(validPass) {
-            const token = jwt.sign({_id: user._id}, process.env.SECRET);
-            res.json({
-                success: true,
-                token: token,
-                user: {
-                    name: user.name,
-                    email: user.email
-                }
-            })
-        } else {
-            res.json({success: false, msg: 'Invalid password'});
-        }
+
+        User.comparePass(password, user.password, (err, isMatch) => {
+            if(err) throw err;
+            if(isMatch) {
+                const token = jwt.sign({_id: user._id}, process.env.SECRET);
+                res.json({
+                    success: true,
+                    token: token,
+                    user: {
+                        id: user._id,
+                        name: user.name,
+                        email: user.email
+                    }
+                });
+            } else {
+                res.json({success: false, msg: 'Invalid password'});
+            }
+        })
     });
 });
 

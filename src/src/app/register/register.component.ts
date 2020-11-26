@@ -43,10 +43,10 @@ export class RegisterComponent implements OnInit {
       response => {
         this.dataRegister = response;
         if(this.dataRegister.success) {
-          alert("Registered successfully");
+          alert(this.dataRegister.msg);
           this.router.navigate(['/login']);
         } else {
-          alert("Register failed");
+          alert(this.dataRegister.msg);
           this.name = "";
           this.email = "";
           this.password = "";
