@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { ValidateService } from './validate.service';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
@@ -11,12 +11,12 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'src';
 
-  constructor(private validateService: ValidateService, private authService: AuthService, private router: Router) { }
+  constructor(private validateService: ValidateService, public authService: AuthService, private router: Router) { }
 
   logout() {
     this.authService.logout();
     alert("You have logged out");
-    this.router.navigate(['login']);
+    this.router.navigate(['']);
     return false;
   }
 }

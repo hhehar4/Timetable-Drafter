@@ -17,13 +17,18 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { ValidateService } from './validate.service';
 import { AuthService } from './auth.service';
+import { CoursesComponent } from './courses/courses.component';
+import { ListsComponent } from './lists/lists.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    CoursesComponent,
+    ListsComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +43,7 @@ import { AuthService } from './auth.service';
     NoopAnimationsModule,
     FormsModule
   ],
-  providers: [ValidateService, AuthService],
+  providers: [ValidateService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

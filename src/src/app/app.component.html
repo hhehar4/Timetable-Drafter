@@ -10,13 +10,16 @@
         <a routerLink="/"  mat-button>
           Home
         </a>
-        <a routerLink="/login"  mat-button>
+        <a routerLink="/courses"  mat-button>
+          Courses
+        </a>
+        <a *ngIf="authService.loggedIn()" routerLink="/login"  mat-button>
           Login
         </a>
-        <a routerLink="/register"  mat-button>
+        <a *ngIf="authService.loggedIn()" routerLink="/register"  mat-button>
           Register
         </a>
-        <a (click)="logout()" mat-button>
+        <a *ngIf="!authService.loggedIn()" (click)="logout()" mat-button>
           Logout
         </a>
       </div>
@@ -27,12 +30,19 @@
     <mat-sidenav #sidenav>
       <mat-nav-list>
         <a routerLink="/" (click)="sidenav.toggle()" mat-list-item>
-          Home</a>
-        <a routerLink="/login" (click)="sidenav.toggle()" mat-list-item>
+          Home
+        </a>
+        <a routerLink="/courses" (click)="sidenav.toggle()" mat-list-item>
+          Courses
+        </a>
+        <a *ngIf="authService.loggedIn()" routerLink="/login" (click)="sidenav.toggle()" mat-list-item>
           Login
         </a>
-        <a routerLink="/register" (click)="sidenav.toggle()" mat-list-item>
+        <a *ngIf="authService.loggedIn()" routerLink="/register" (click)="sidenav.toggle()" mat-list-item>
           Register
+        </a>
+        <a *ngIf="!authService.loggedIn()" (click)="logout()" (click)="sidenav.toggle()" mat-list-item>
+          Logout
         </a>
         <a (click)="sidenav.toggle()" mat-list-item>
           <mat-icon>close</mat-icon> Close
