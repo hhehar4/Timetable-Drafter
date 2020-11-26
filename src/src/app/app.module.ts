@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -20,6 +21,7 @@ import { AuthService } from './auth.service';
 import { CoursesComponent } from './courses/courses.component';
 import { ListsComponent } from './lists/lists.component';
 import { AuthGuard } from './auth.guard';
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { AuthGuard } from './auth.guard';
     RegisterComponent,
     HomeComponent,
     CoursesComponent,
-    ListsComponent
+    ListsComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { AuthGuard } from './auth.guard';
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
+    MatDialogModule,
     MatIconModule,
     MatListModule,
     FlexLayoutModule,

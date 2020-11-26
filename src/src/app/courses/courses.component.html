@@ -1,16 +1,16 @@
 <div class="container">
     <h3>Courses</h3>
     <hr class="my-2">
-    <form>
+    <form (submit)="baseSearch()">
         <div class="row">
             <div class="col">
                 <label>Search by Subject and Course Code</label>
             </div>
             <div class="col">
-                <input type="text" class="form-control"  placeholder="Enter name">
+                <input type="text" class="form-control" [(ngModel)]="subIn" name="sunIn" placeholder="Enter subject">
             </div>
             <div class="col">
-                <input type="text" class="form-control"  placeholder="Enter name">
+                <input type="text" class="form-control" [(ngModel)]="crseIn" name="crseIn" placeholder="Enter course code">
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-dark">Search</button>
@@ -18,13 +18,13 @@
         </div>
     </form>
     <hr class="my-2">
-    <form>
+    <form (submit)="keySearch()">
         <div class="row">
             <div class="col">
                 <label>Search by Keyword</label>
             </div>
             <div class="col">
-                <input type="text" class="form-control"  placeholder="Enter name">
+                <input type="text" [(ngModel)]="keyword" name="keyword" class="form-control" placeholder="Enter keyword">
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-dark">Search</button>
@@ -33,3 +33,14 @@
     </form>
     <hr class="my-2">
   </div>
+
+<ul class="subjects">
+    <li *ngFor="let subject of subjects">
+        <div class="inner">
+              <p class="card-title">{{subject.subject}} {{subject.catalog_nbr}} {{subject.course_info[0].ssr_component}} {{subject.course_info[0].class_section}}</p>
+              <p class="card-text">{{subject.className}}</p>
+              <a mat-button>Add</a>
+              <a (click)="openDialog(subject)" mat-button>Expand</a>
+        </div>
+    </li>
+</ul>

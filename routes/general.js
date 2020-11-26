@@ -51,7 +51,7 @@ router.get('/times/:flag/:input1?/:input2?', (req, res) => {
         else {
             res.status(404).send(`Error`);
         }
-    } else if(req.params.flag == "2") {
+    } else if(req.params.flag == "2") { //Specified course
         if(req.params.input1) {
             let inputCrse = validator.escape(validator.trim(req.params.input1));
             timetable.forEach(e => {
@@ -73,14 +73,16 @@ router.get('/keyword/:input', (req, res) => {
     let keyword = validator.escape(validator.trim(req.params.input));
     let keywordLen = validator.isLength(keyword, 4);
     let entries = [];
-    
-    timetable.forEach(e => {
-        if((stringSimilarity.compareTwoStrings(keyword, String(e.catalog_nbr)) >= 0.6) || (stringSimilarity.compareTwoStrings(keyword, String(e.className)) >= 0.6) || (String(e.catalog_nbr)).indexOf(keyword) >= 0 || (String(e.className)).indexOf(keyword) >= 0) {
-            entries.push(e);
-        }
-    });
-
-    res.send(entries);
+    if(keywordLen) {
+        timetable.forEach(e => {
+            if((stringSimilarity.compareTwoStrings(keyword, String(e.catalog_nbr)) >= 0.6) || (stringSimilarity.compareTwoStrings(keyword, String(e.className)) >= 0.6) || (String(e.catalog_nbr)).indexOf(keyword) >= 0 || (String(e.className)).indexOf(keyword) >= 0) {
+                entries.push(e);
+            }
+        });
+        res.send(entries);
+    } else {
+        res.status(404).send(`Keyword too short. Must be at least 4 characters.`);
+    }
 });
 
 module.exports = router; 

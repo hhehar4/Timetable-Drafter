@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'app-courses',
@@ -6,10 +9,109 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
+  subjects: String[];
+  keyword: String;
+  tempVal: String;
+  subIn: String;
+  crseIn: String;
 
-  constructor() { }
+  constructor(private authService: AuthService, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
+  keySearch() {
+    try {
+      this.tempVal = this.keyword.toUpperCase();
+    }
+    catch(e) {}
+    this.authService.keywordSearch(this.tempVal)
+    .subscribe(
+      response => {
+        this.subjects = response;
+        console.log(this.subjects);
+      },
+      error => {
+        alert(error.error);
+        this.subjects = [];
+      }
+    );
+    this.keyword = null;
+  }
+
+  baseSearch() {
+    if(this.subIn) {
+      if(this.crseIn) {
+        this.authService.baseSearch("1", this.subIn.toUpperCase(), this.crseIn.toUpperCase())
+        .subscribe(
+          response => {
+            this.subjects = response;
+            console.log(this.subjects);
+          },
+          error => {
+            alert(error.error);
+            this.subjects = [];
+          }
+        );
+        this.subIn = null;
+        this.crseIn = null;
+      } else {
+        this.authService.baseSearch("1", this.subIn.toUpperCase(), null)
+        .subscribe(
+          response => {
+            this.subjects = response;
+            console.log(this.subjects);
+          },
+          error => {
+            alert(error.error);
+            this.subjects = [];
+          }
+        );
+        this.subIn = null;
+        this.crseIn = null;
+      }
+    }
+    else {
+      if(this.crseIn) {
+        this.authService.baseSearch("2", this.crseIn.toUpperCase(), null)
+        .subscribe(
+          response => {
+            this.subjects = response;
+            console.log(this.subjects);
+          },
+          error => {
+            alert(error.error);
+            this.subjects = [];
+          }
+        );
+        this.subIn = null;
+        this.crseIn = null;        
+      } else {
+        this.authService.baseSearch("0", null, null)
+        .subscribe(
+          response => {
+            this.subjects = response;
+            console.log(this.subjects);
+          },
+          error => {
+            alert(error.error);
+            this.subjects = [];
+          }
+        );
+        this.subIn = null;
+        this.crseIn = null;
+      }
+    }
+  }
+  
+
+  openDialog(subject) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = subject;
+
+    this.matDialog.open(PopupComponent, dialogConfig);
+}
 }

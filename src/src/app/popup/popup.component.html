@@ -1,0 +1,14 @@
+
+<mat-dialog-content>
+<p>{{data.subject}} {{data.catalog_nbr}} {{data.course_info[0].ssr_component}} {{data.course_info[0].class_section}}</p>
+<p>{{data.className}}</p>
+<p>Days: {{data.course_info[0].days}}</p>
+<p>Start time: {{data.course_info[0].start_time}} | End time: {{data.course_info[0].end_time}}</p>
+<p>Campus: {{data.course_info[0].campus}} | {{data.course_info[0].facility_ID}}</p>
+<p>Status: {{data.course_info[0].enrl_stat}}</p>
+<p>{{data.course_info[0].descrlong}}{{data.course_info[0].descr}}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+</mat-dialog-actions>

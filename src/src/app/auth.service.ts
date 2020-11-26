@@ -37,6 +37,22 @@ export class AuthService {
     this.user = user;
   }
 
+  public keywordSearch(keyword: String): Observable<any>  {
+    return this.http.get(`http://localhost:3000/general/keyword/${keyword}`);
+  }
+
+  public baseSearch(flag: String, input1: String, input2: String): Observable<any>  {
+    if(input1) {
+        if(input2) {
+          return this.http.get(`http://localhost:3000/general/times/${flag}/${input1}/${input2}`);
+        } else {
+          return this.http.get(`http://localhost:3000/general/times/${flag}/${input1}`);
+        }
+    } else {
+      return this.http.get(`http://localhost:3000/general/times/${flag}`);
+    }
+  }
+
   logout() {
     this.authToken = null;
     this.user = null;

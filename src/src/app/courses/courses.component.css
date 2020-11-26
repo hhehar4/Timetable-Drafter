@@ -1,0 +1,26 @@
+.subjects{
+    column-fill: balance;
+}
+
+li {
+    display: inline-block;
+    width: 19%;
+    margin: 5px;
+    height: auto;
+    list-style-type: none;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 2px solid #7986cb;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+div.inner {
+    text-align: center;
+    font-size: 1vw;
+}
+
+a {
+    text-align: center;
+}
