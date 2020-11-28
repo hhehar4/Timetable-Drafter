@@ -16,9 +16,13 @@ li {
     break-inside: avoid;
 }
 
+.inner {
+    font-size: 15px;
+}
+
 div.inner {
     text-align: center;
-    font-size: 1vw;
+    font-size: 15px;
 }
 
 a {

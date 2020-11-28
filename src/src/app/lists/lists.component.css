@@ -1,0 +1,14 @@
+li {
+    margin: 5px;
+    height: auto;
+    list-style-type: none;
+    margin-bottom: 15px;
+}
+
+.inner {
+    font-size: 15px;
+}
+
+a {
+    text-align: center;
+}

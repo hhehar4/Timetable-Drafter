@@ -53,6 +53,10 @@ export class AuthService {
     }
   }
 
+  public getPublicLists(): Observable<any> {
+    return this.http.get(`http://localhost:3000/general/publicLists`);
+  }
+
   logout() {
     this.authToken = null;
     this.user = null;

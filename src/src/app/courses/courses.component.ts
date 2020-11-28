@@ -29,7 +29,6 @@ export class CoursesComponent implements OnInit {
     .subscribe(
       response => {
         this.subjects = response;
-        console.log(this.subjects);
       },
       error => {
         alert(error.error);
@@ -46,7 +45,6 @@ export class CoursesComponent implements OnInit {
         .subscribe(
           response => {
             this.subjects = response;
-            console.log(this.subjects);
           },
           error => {
             alert(error.error);
@@ -60,7 +58,6 @@ export class CoursesComponent implements OnInit {
         .subscribe(
           response => {
             this.subjects = response;
-            console.log(this.subjects);
           },
           error => {
             alert(error.error);
@@ -77,7 +74,6 @@ export class CoursesComponent implements OnInit {
         .subscribe(
           response => {
             this.subjects = response;
-            console.log(this.subjects);
           },
           error => {
             alert(error.error);
@@ -91,7 +87,6 @@ export class CoursesComponent implements OnInit {
         .subscribe(
           response => {
             this.subjects = response;
-            console.log(this.subjects);
           },
           error => {
             alert(error.error);
@@ -113,5 +108,5 @@ export class CoursesComponent implements OnInit {
     dialogConfig.data = subject;
 
     this.matDialog.open(PopupComponent, dialogConfig);
-}
+  }
 }

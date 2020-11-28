@@ -75,13 +75,57 @@ router.get('/keyword/:input', (req, res) => {
     let entries = [];
     if(keywordLen) {
         timetable.forEach(e => {
-            if((stringSimilarity.compareTwoStrings(keyword, String(e.catalog_nbr)) >= 0.6) || (stringSimilarity.compareTwoStrings(keyword, String(e.className)) >= 0.6) || (String(e.catalog_nbr)).indexOf(keyword) >= 0 || (String(e.className)).indexOf(keyword) >= 0) {
+            if((stringSimilarity.compareTwoStrings(keyword, String(e.catalog_nbr)) >= 0.50) || (String(e.catalog_nbr)).indexOf(keyword) >= 0) {
                 entries.push(e);
             }
+            const desc = e.className.split(" ");
+            let tracker = true;
+            desc.forEach(el => {
+                if(((stringSimilarity.compareTwoStrings(keyword, String(el)) >= 0.50) || (String(el)).indexOf(keyword) >= 0) && tracker) {
+                    entries.push(e);
+                    tracker = false;
+                }
+            })
         });
         res.send(entries);
     } else {
         res.status(404).send(`Keyword too short. Must be at least 4 characters.`);
+    }
+});
+
+//Get public lists
+router.get('/publicLists', (req, res) => {
+    let savedTimetables = [];
+    let timetables;
+    let outList = [];
+    try {
+        timetables = fs.readFileSync('./timetables.json', 'utf8');
+        savedTimetables = JSON.parse(timetables);
+        let tenTracker = 0;
+        for(let i = 0; i < savedTimetables.length; i++) {
+            if(tenTracker >= 10) {
+                break;
+            }
+            if(savedTimetables[i].public == "TRUE") {
+                const temp = {
+                    "timetable_name": savedTimetables[i].timetable_name,
+                    "creator_name": savedTimetables[i].creator_name,
+                    "last_updated": savedTimetables[i].last_updated,
+                    "description": savedTimetables[i].description,
+                    "courses": savedTimetables[i].courses
+                }
+                outList.push(savedTimetables[i]);
+                tenTracker++;
+            } 
+            else {
+                continue;
+            }
+        }
+        
+        res.send(outList);
+    }
+    catch(err) {
+        res.status(404).send(`No timetables exist`);
     }
 });
 
