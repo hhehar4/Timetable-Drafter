@@ -16,6 +16,9 @@
         <a routerLink="/lists"  mat-button>
           Public Lists
         </a>
+        <a *ngIf="!authService.loggedIn()" routerLink="/personalLists"  mat-button>
+          My Lists
+        </a>
         <a *ngIf="authService.loggedIn()" routerLink="/login"  mat-button>
           Login
         </a>

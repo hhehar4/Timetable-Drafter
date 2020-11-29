@@ -1,11 +1,11 @@
 [
     {
-        "timetable_name": "Name",
-        "creator_name": "Person",
-        "creator_email": "Email",
+        "timetable_name": "Test 1",
+        "creator_name": "a",
+        "creator_email": "a@a.com",
         "last_updated": "Date",
         "public": "TRUE",
-        "description": "Example desc",
+        "description": "First sample timetable",
         "courses": [
             {
             "catalog_nbr": "1021B",
@@ -62,12 +62,12 @@
         ]
     },
     {
-        "timetable_name": "Name2",
-        "creator_name": "Person",
-        "creator_email": "Email",
+        "timetable_name": "Test 2",
+        "creator_name": "AA",
+        "creator_email": "aa@a.com",
         "last_updated": "Date",
         "public": "TRUE",
-        "description": "Example desc",
+        "description": "Second sample timetable",
         "courses": [
             {
             "catalog_nbr": "1021B",

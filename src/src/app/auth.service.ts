@@ -57,6 +57,17 @@ export class AuthService {
     return this.http.get(`http://localhost:3000/general/publicLists`);
   }
 
+  public getPersonalLists(): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    };
+    console.log(this.user);
+    return this.http.get(`http://localhost:3000/secure/myLists/${this.user.email}`, httpOptions);
+  }
+
   logout() {
     this.authToken = null;
     this.user = null;

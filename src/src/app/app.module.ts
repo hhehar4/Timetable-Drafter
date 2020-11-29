@@ -22,6 +22,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { ListsComponent } from './lists/lists.component';
 import { AuthGuard } from './auth.guard';
 import { PopupComponent } from './popup/popup.component';
+import { PersonalListsComponent } from './personal-lists/personal-lists.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { PopupComponent } from './popup/popup.component';
     HomeComponent,
     CoursesComponent,
     ListsComponent,
-    PopupComponent
+    PopupComponent,
+    PersonalListsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,28 @@
+<div class="container top-button">
+    <a mat-button class="create-button">Create New Timetable</a>
+</div>
+
+<div class='container'>
+    <ul class="list-group row">
+        <li class="list-group-item col-xs-6" *ngFor="let timetable of timetables">
+            <div class="col-xs-6">
+                <p class="inner">{{timetable.timetable_name}} | Created By: {{timetable.creator_name}} | Last Updated: {{timetable.last_updated}} | Number of Courses: {{timetable.courses.length}}</p>
+                <a *ngIf="selectedTimetable != timetable" (click)="onSelect(timetable)" class="inner" mat-button>Expand</a>
+                <a *ngIf="selectedTimetable == timetable" (click)="removeSelect()" class="inner" mat-button>Minimize</a>
+            </div>
+            <div *ngIf="selectedTimetable == timetable" class="col-xs-6">
+                <span class="inner">Description:</span>
+                <br>
+                <span class="inner">{{timetable.description}}</span>
+                <br>
+                <span class="inner">Courses:</span>
+                <br>
+                <span class="inner" *ngFor="let course of timetable.courses">
+                    {{course.subject}} {{course.catalog_nbr}} 
+                    <a  class="inner" mat-button>Expand</a>
+                    <br>
+                </span>
+            </div>
+        </li>
+   </ul>
+</div>

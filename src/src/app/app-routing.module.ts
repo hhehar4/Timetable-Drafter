@@ -5,6 +5,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses.component';
 import { ListsComponent } from './lists/lists.component';
+import { PersonalListsComponent } from './personal-lists/personal-lists.component';
 import { AuthGuard } from './auth.guard';
 
 //Add canActivate:[AuthGuard] as extra parameter to restricted routes
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path:'login', component: LoginComponent},
   {path:'register', component: RegisterComponent},
   {path:'lists', component: ListsComponent},
+  {path:'personalLists', component: PersonalListsComponent, canActivate:[AuthGuard]},
   {path:'courses', component: CoursesComponent}
 ];
 

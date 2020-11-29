@@ -1,0 +1,11 @@
+.create-button {
+    background-color: #5c6bc0;
+    margin: 2px;
+    color: white;
+}
+
+.top-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

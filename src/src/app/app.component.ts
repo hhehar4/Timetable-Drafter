@@ -13,6 +13,10 @@ export class AppComponent {
 
   constructor(private validateService: ValidateService, public authService: AuthService, private router: Router) { }
 
+  ngOnInit(): void {
+    this.authService.logout();
+  }
+
   logout() {
     this.authService.logout();
     alert("You have logged out");
