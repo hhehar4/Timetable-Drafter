@@ -25,6 +25,7 @@ import { PopupComponent } from './popup/popup.component';
 import { PersonalListsComponent } from './personal-lists/personal-lists.component';
 import { EditPopupComponent } from './edit-popup/edit-popup.component';
 import { CreatePopupComponent } from './create-popup/create-popup.component';
+import { DeletePopupComponent } from './delete-popup/delete-popup.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { CreatePopupComponent } from './create-popup/create-popup.component';
     PopupComponent,
     PersonalListsComponent,
     EditPopupComponent,
-    CreatePopupComponent
+    CreatePopupComponent,
+    DeletePopupComponent
   ],
   imports: [
     BrowserModule,

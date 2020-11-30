@@ -16,7 +16,7 @@
                 <a *ngIf="selectedTimetable != timetable" (click)="onSelect(timetable)" class="inner" mat-button>Expand</a>
                 <a *ngIf="selectedTimetable == timetable" (click)="removeSelect()" class="inner" mat-button>Minimize</a>
                 <a class="inner" (click)="openEditDialog(timetable)"  mat-button>Edit</a>
-                <a class="inner" mat-button>Delete</a>
+                <a class="inner" (click)="openDeleteDialog(timetable)" mat-button>Delete</a>
             </div>
             <div *ngIf="selectedTimetable == timetable" class="col-xs-6">
                 <span class="inner">Description:</span>

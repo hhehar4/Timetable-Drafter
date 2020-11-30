@@ -100,7 +100,7 @@ router.put('/updateTimetables/:name/:token', passport.authenticate('jwt', {sessi
                     })
                     newItem.courses = dupRemove;
                     currDate = new Date();
-                    newItem.last_updated = currDate.toUTCString();
+                    newItem.last_updated = currDate.toString();
                     savedTimetables.splice(index, 1);
                     savedTimetables.unshift(newItem);
                     //Update table
@@ -178,12 +178,12 @@ router.post('/createTimetables/:token', passport.authenticate('jwt', {session: f
                     })
                     newItem.courses = dupRemove;
                     currDate = new Date();
-                    newItem.last_updated = currDate.toUTCString();
+                    newItem.last_updated = currDate.toString();
                     savedTimetables.unshift(newItem);
                     //Update table
                     fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
                         if (err) throw err;
-                        }); 
+                    }); 
                     res.status(204).send(`Timetable Added`);
                 }
                 else {
@@ -192,6 +192,38 @@ router.post('/createTimetables/:token', passport.authenticate('jwt', {session: f
             }
             else {
                 res.status(404).send(`User already has 20 tables`);
+            }
+        }
+    });
+});
+
+router.delete('/deleteTable/:name/:token', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    //Verify user using jwt token
+    let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
+    let uEmail = "";
+    User.findOne({_id: uId}, (err, user) => {
+        if(err) throw err;
+        if(user) {
+            uEmail = user.email;
+            let savedTimetables;
+            try {
+                timetables = fs.readFileSync('./timetables.json', 'utf8');
+                savedTimetables = JSON.parse(timetables);
+            }
+            catch(err) {
+            }
+            //Find a table that matches the email and name
+            let schName = validator.trim(req.params.name);
+            schName = schName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+            const tracker = savedTimetables.find(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
+            const index = savedTimetables.findIndex(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
+            if(tracker) {
+                savedTimetables.splice(index, 1);
+                //Remove table
+                fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
+                    if (err) throw err;
+                }); 
+                res.status(204).send(`Successfully removed`);
             }
         }
     });

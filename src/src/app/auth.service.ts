@@ -89,9 +89,18 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     }; 
-    console.log(data);
     data.courses = courses;
     return this.http.post(`http://localhost:3000/secure/createTimetables/${this.authToken}`, data, httpOptions);
+  }
+
+  public deleteTimetable(name: String): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    }; 
+    return this.http.delete(`http://localhost:3000/secure/deleteTable/${name}/${this.authToken}`, httpOptions);
   }
 
   logout() {

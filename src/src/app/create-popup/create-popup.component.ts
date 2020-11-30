@@ -79,16 +79,7 @@ export class CreatePopupComponent implements OnInit {
                 )
               }
               if(this.tempCourses.length == 0) {
-                this.authService.createTimetable(this.tempData, this.newCourses)
-                .subscribe(
-                  response => {
-                    alert(`Table added successfully`);
-                    this.close();
-                  },
-                  error => {
-                    alert(error.error);
-                  }
-                ); 
+                alert("Please enter at least 1 course.")
               }
             } catch(e) {
             }

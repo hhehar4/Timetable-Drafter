@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component';
 import { EditPopupComponent } from '../edit-popup/edit-popup.component';
 import { CreatePopupComponent } from '../create-popup/create-popup.component';
+import { DeletePopupComponent } from '../delete-popup/delete-popup.component';
 
 @Component({
   selector: 'app-personal-lists',
@@ -53,7 +54,7 @@ export class PersonalListsComponent implements OnInit {
   openCreateDialog() {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
     this.matDialog.open(CreatePopupComponent, dialogConfig);
@@ -67,5 +68,15 @@ export class PersonalListsComponent implements OnInit {
     dialogConfig.data = table;
 
     this.matDialog.open(EditPopupComponent, dialogConfig);
+  }
+
+  openDeleteDialog(table) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = table;
+
+    this.matDialog.open(DeletePopupComponent, dialogConfig);
   }
 }
