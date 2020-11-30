@@ -53,6 +53,10 @@ export class AuthService {
     }
   }
 
+  public verifyCourse(input1: String, input2: String): Observable<any>  {
+    return this.http.get(`http://localhost:3000/general/verify/${input1}/${input2}`); 
+  }
+
   public getPublicLists(): Observable<any> {
     return this.http.get(`http://localhost:3000/general/publicLists`);
   }
@@ -64,8 +68,18 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     };
-    console.log(this.user);
     return this.http.get(`http://localhost:3000/secure/myLists/${this.user.email}`, httpOptions);
+  }
+
+  public updateTimetable(data, courses: any[], originalName: String): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    }; 
+    data.courses = courses;
+    return this.http.put(`http://localhost:3000/secure/updateTimetables/${originalName}`, data, httpOptions);
   }
 
   logout() {

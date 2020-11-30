@@ -31,7 +31,6 @@ export class ListsComponent implements OnInit {
     .subscribe(
       response => {
         this.timetables = response;
-        console.log(this.timetables);
       },
       error => {
         alert(error.error);

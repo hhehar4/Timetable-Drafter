@@ -23,6 +23,7 @@ import { ListsComponent } from './lists/lists.component';
 import { AuthGuard } from './auth.guard';
 import { PopupComponent } from './popup/popup.component';
 import { PersonalListsComponent } from './personal-lists/personal-lists.component';
+import { EditPopupComponent } from './edit-popup/edit-popup.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { PersonalListsComponent } from './personal-lists/personal-lists.componen
     CoursesComponent,
     ListsComponent,
     PopupComponent,
-    PersonalListsComponent
+    PersonalListsComponent,
+    EditPopupComponent
   ],
   imports: [
     BrowserModule,

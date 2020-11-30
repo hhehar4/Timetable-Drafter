@@ -68,6 +68,46 @@ router.get('/times/:flag/:input1?/:input2?', (req, res) => {
     }
 });
 
+router.get('/verify/:input1/:input2', (req, res) => {
+    let firstPass = [];
+    let secondPass = [];
+    let times = [];
+    let checker = true;
+        if(req.params.input1) {
+            let input1 = validator.escape(validator.trim(req.params.input1));
+            timetable.forEach(e => {
+                if(String(e.subject) === input1) {
+                    firstPass.push(e);
+                }
+            });
+            if(req.params.input2) {
+                let inputCrse = validator.escape(validator.trim(req.params.input2));
+                let crseLength = validator.isLength(inputCrse, 1, 5);
+                const cTracker = timetable.find(ele => (String(ele.catalog_nbr) === inputCrse));
+                if(cTracker && crseLength) {
+                    firstPass.forEach(e => {
+                        if((String(e.catalog_nbr) === inputCrse)) {
+                            secondPass.push(e);
+                        }
+                    })
+                }
+                else {
+                    checker = false;
+                    res.status(404).send(`Specified course not found`);
+                }
+            }
+            else {
+                secondPass = firstPass;
+            }
+            if(checker) {
+                res.send(secondPass);
+            }
+        }
+        else {
+            res.status(404).send(`Error`);
+        }
+});
+
 //Softmatch Search
 router.get('/keyword/:input', (req, res) => {
     let keyword = validator.escape(validator.trim(req.params.input));
@@ -106,7 +146,7 @@ router.get('/publicLists', (req, res) => {
             if(tenTracker >= 10) {
                 break;
             }
-            if(savedTimetables[i].public == "TRUE") {
+            if(savedTimetables[i].public) {
                 const temp = {
                     "timetable_name": savedTimetables[i].timetable_name,
                     "creator_name": savedTimetables[i].creator_name,

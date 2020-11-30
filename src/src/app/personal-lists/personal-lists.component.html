@@ -9,6 +9,8 @@
                 <p class="inner">{{timetable.timetable_name}} | Created By: {{timetable.creator_name}} | Last Updated: {{timetable.last_updated}} | Number of Courses: {{timetable.courses.length}}</p>
                 <a *ngIf="selectedTimetable != timetable" (click)="onSelect(timetable)" class="inner" mat-button>Expand</a>
                 <a *ngIf="selectedTimetable == timetable" (click)="removeSelect()" class="inner" mat-button>Minimize</a>
+                <a class="inner" (click)="openEditDialog(timetable)"  mat-button>Edit</a>
+                <a class="inner" mat-button>Delete</a>
             </div>
             <div *ngIf="selectedTimetable == timetable" class="col-xs-6">
                 <span class="inner">Description:</span>
@@ -19,7 +21,7 @@
                 <br>
                 <span class="inner" *ngFor="let course of timetable.courses">
                     {{course.subject}} {{course.catalog_nbr}} 
-                    <a  class="inner" mat-button>Expand</a>
+                    <a (click)="openDialog(course)" class="inner" mat-button>Expand</a>
                     <br>
                 </span>
             </div>

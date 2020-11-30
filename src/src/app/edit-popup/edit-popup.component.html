@@ -1,0 +1,36 @@
+
+<mat-dialog-content>
+    <div>
+        <label>Name:
+          <input [(ngModel)]="tempData.timetable_name"/>
+        </label>
+        <br>
+        <label>Description:
+            <input [(ngModel)]="tempData.description"/>
+        </label>
+        <br>
+        <label>Public:
+            <input type="checkbox" [(ngModel)]="tempData.public"/>
+        </label>
+        <br>
+        Courses:
+        <br>
+        <div *ngFor="let course of tempCourses">
+            <label>Subject Code:
+                <input [(ngModel)]="course.subject"/>
+            </label>
+            <label> Course Code:
+                <input [(ngModel)]="course.catalog_nbr"/>
+            </label>
+            <button class="mat-raised-button" (click)="removeCourse(course)">Delete</button>
+        </div>
+        <button class="mat-raised-button" (click)="addCourse()">Add</button>
+    </div>
+</mat-dialog-content>
+    
+    <mat-dialog-actions>
+        <button class="mat-raised-button" (click)="save()">Save</button>
+        <button class="mat-raised-button" (click)="close()">Close</button>
+    </mat-dialog-actions>
+
+    
