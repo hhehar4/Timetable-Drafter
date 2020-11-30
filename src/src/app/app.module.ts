@@ -24,6 +24,7 @@ import { AuthGuard } from './auth.guard';
 import { PopupComponent } from './popup/popup.component';
 import { PersonalListsComponent } from './personal-lists/personal-lists.component';
 import { EditPopupComponent } from './edit-popup/edit-popup.component';
+import { CreatePopupComponent } from './create-popup/create-popup.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { EditPopupComponent } from './edit-popup/edit-popup.component';
     ListsComponent,
     PopupComponent,
     PersonalListsComponent,
-    EditPopupComponent
+    EditPopupComponent,
+    CreatePopupComponent
   ],
   imports: [
     BrowserModule,

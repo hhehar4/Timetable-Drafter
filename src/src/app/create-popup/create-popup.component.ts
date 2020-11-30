@@ -5,20 +5,29 @@ import { Inject } from '@angular/core';
 import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'app-edit-popup',
-  templateUrl: './edit-popup.component.html',
-  styleUrls: ['./edit-popup.component.css']
+  selector: 'app-create-popup',
+  templateUrl: './create-popup.component.html',
+  styleUrls: ['./create-popup.component.css']
 })
-export class EditPopupComponent implements OnInit {
+export class CreatePopupComponent implements OnInit {
+  constructor(private authService: AuthService, public dialogRef: MatDialogRef<CreatePopupComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+
   tempData: any;
   listNames = [];
   newCourses = [];
   tempCourses = [];
 
-  constructor(private authService: AuthService, public dialogRef: MatDialogRef<EditPopupComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    this.tempData = JSON.parse(JSON.stringify(this.data));
+    this.tempData = {
+      "timetable_name": "",
+      "creator_name": this.authService.user.name,
+      "creator_email":this.authService.user.email,
+      "last_updated": "",
+      "public": false,
+      "description": "",
+      "courses": []
+    }
     this.tempCourses = this.tempData.courses;
   }
 
@@ -38,25 +47,24 @@ export class EditPopupComponent implements OnInit {
   }
 
   save() {
-    this.getPersonalListNames();
-    if(String(this.tempData.timetable_name) != (String(this.data.timetable_name))) {
+      this.getPersonalListNames();
       const nameCheck = this.listNames.find(e => String(e) == String(this.tempData.timetable_name));
       if(String(this.tempData.timetable_name) != "") {
           if(nameCheck) {
             alert("Timetable with same name already exists.");
           }
           else {
-            try { 
+            try {
               for(let i = 0; i < this.tempCourses.length; i ++) {
                 this.authService.verifyCourse(String(this.tempCourses[i].subject).toUpperCase(), String(this.tempCourses[i].catalog_nbr).toUpperCase())
                 .subscribe(
                   response => { 
                     this.newCourses.push(response[0]);
                     if(i == this.tempCourses.length - 1) {
-                      this.authService.updateTimetable(this.tempData, this.newCourses, this.data.timetable_name)
+                      this.authService.createTimetable(this.tempData, this.newCourses)
                       .subscribe(
                         response => {
-                          alert(`Table updated successfully`);
+                          alert(`Table added successfully`);
                           this.close();
                         },
                         error => {
@@ -71,10 +79,10 @@ export class EditPopupComponent implements OnInit {
                 )
               }
               if(this.tempCourses.length == 0) {
-                this.authService.updateTimetable(this.tempData, this.newCourses, this.data.timetable_name)
+                this.authService.createTimetable(this.tempData, this.newCourses)
                 .subscribe(
                   response => {
-                    alert(`Table updated successfully`);
+                    alert(`Table added successfully`);
                     this.close();
                   },
                   error => {
@@ -89,47 +97,6 @@ export class EditPopupComponent implements OnInit {
       else {
         alert("Enter a unique timetable name.");
       }
-    } else {
-        try { 
-          for(let i = 0; i < this.tempCourses.length; i ++) {
-            this.authService.verifyCourse(String(this.tempCourses[i].subject).toUpperCase(), String(this.tempCourses[i].catalog_nbr).toUpperCase())
-            .subscribe(
-              response => { 
-                this.newCourses.push(response[0]);
-                if(i == this.tempCourses.length - 1) {
-                  this.authService.updateTimetable(this.tempData, this.newCourses, this.data.timetable_name)
-                  .subscribe(
-                    response => {
-                      alert(`Table updated successfully`);
-                      this.close();
-                    },
-                    error => {
-                      alert(error.error);
-                    }
-                  ); 
-                }
-              },
-              error => {
-                this.newCourses = [];
-              }
-            )
-          }
-          if(this.tempCourses.length == 0) {
-            console.log("test");
-            this.authService.updateTimetable(this.tempData, this.newCourses, this.data.timetable_name)
-            .subscribe(
-              response => {
-                alert(`Table updated successfully`);
-                this.close();
-              },
-              error => {
-                alert(error.error);
-              }
-            ); 
-          }
-        } catch(e) {
-        }
-    }
   }
 
   addCourse() {

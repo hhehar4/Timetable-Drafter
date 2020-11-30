@@ -2,7 +2,14 @@
     <ul class="list-group row">
         <li class="list-group-item col-xs-6" *ngFor="let timetable of timetables">
             <div class="col-xs-6">
-                <p class="inner">{{timetable.timetable_name}} | Created By: {{timetable.creator_name}} | Last Updated: {{timetable.last_updated}} | Number of Courses: {{timetable.courses.length}}</p>
+                <span class="inner">{{timetable.timetable_name}}</span>
+                <br>
+                <span class="inner">Created By: {{timetable.creator_name}}</span>
+                <br>
+                <span class="inner">Last Updated: {{timetable.last_updated}}</span>
+                <br>
+                <span class="inner">Number of Courses: {{timetable.courses.length}}</span>
+                <br>
                 <a *ngIf="selectedTimetable != timetable" (click)="onSelect(timetable)" class="inner" mat-button>Expand</a>
                 <a *ngIf="selectedTimetable == timetable" (click)="removeSelect()" class="inner" mat-button>Minimize</a>
             </div>

@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component';
 import { EditPopupComponent } from '../edit-popup/edit-popup.component';
+import { CreatePopupComponent } from '../create-popup/create-popup.component';
 
 @Component({
   selector: 'app-personal-lists',
@@ -14,7 +15,7 @@ export class PersonalListsComponent implements OnInit {
   selectedTimetable: any;
   constructor(private authService: AuthService, private matDialog: MatDialog) { }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.getPersonalLists();
   }
 
@@ -47,6 +48,15 @@ export class PersonalListsComponent implements OnInit {
     dialogConfig.data = subject;
 
     this.matDialog.open(PopupComponent, dialogConfig);
+  }
+
+  openCreateDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+
+    this.matDialog.open(CreatePopupComponent, dialogConfig);
   }
 
   openEditDialog(table) {

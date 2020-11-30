@@ -9,8 +9,8 @@ const helper = new JwtHelperService();
   providedIn: 'root'
 })
 export class AuthService {
-  authToken: any;
-  user: any;
+  public authToken: any;
+  public user: any;
 
   constructor(private http: HttpClient) { }
 
@@ -79,7 +79,19 @@ export class AuthService {
       }
     }; 
     data.courses = courses;
-    return this.http.put(`http://localhost:3000/secure/updateTimetables/${originalName}`, data, httpOptions);
+    return this.http.put(`http://localhost:3000/secure/updateTimetables/${originalName}/${this.authToken}`, data, httpOptions);
+  }
+
+  public createTimetable(data, courses: any[]): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    }; 
+    console.log(data);
+    data.courses = courses;
+    return this.http.post(`http://localhost:3000/secure/createTimetables/${this.authToken}`, data, httpOptions);
   }
 
   logout() {
