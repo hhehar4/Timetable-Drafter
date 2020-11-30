@@ -39,7 +39,7 @@
         <div class="inner">
               <p class="card-title">{{subject.subject}} {{subject.catalog_nbr}} {{subject.course_info[0].ssr_component}} {{subject.course_info[0].class_section}}</p>
               <p class="card-text">{{subject.className}}</p>
-              <a *ngIf="!authService.loggedIn()" class="inner" mat-button>Add</a>
+              <a *ngIf="!authService.loggedIn()" (click)="openReviewDialog(subject)" class="inner" mat-button>Add Review</a>
               <a (click)="openDialog(subject)" class="inner" mat-button>Expand</a>
         </div>
     </li>

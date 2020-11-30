@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component';
+import { ReviewPopupComponent } from '../review-popup/review-popup.component';
 
 @Component({
   selector: 'app-courses',
@@ -99,6 +100,15 @@ export class CoursesComponent implements OnInit {
     }
   }
   
+  openReviewDialog(subject) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = subject;
+
+    this.matDialog.open(ReviewPopupComponent, dialogConfig);
+  }
 
   openDialog(subject) {
     const dialogConfig = new MatDialogConfig();

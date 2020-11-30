@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -26,6 +27,7 @@ import { PersonalListsComponent } from './personal-lists/personal-lists.componen
 import { EditPopupComponent } from './edit-popup/edit-popup.component';
 import { CreatePopupComponent } from './create-popup/create-popup.component';
 import { DeletePopupComponent } from './delete-popup/delete-popup.component';
+import { ReviewPopupComponent } from './review-popup/review-popup.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { DeletePopupComponent } from './delete-popup/delete-popup.component';
     PersonalListsComponent,
     EditPopupComponent,
     CreatePopupComponent,
-    DeletePopupComponent
+    DeletePopupComponent,
+    ReviewPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +52,7 @@ import { DeletePopupComponent } from './delete-popup/delete-popup.component';
     MatButtonModule,
     MatSidenavModule,
     MatDialogModule,
+    MatRadioModule,
     MatIconModule,
     MatListModule,
     FlexLayoutModule,

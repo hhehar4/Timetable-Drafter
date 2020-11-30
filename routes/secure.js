@@ -66,55 +66,55 @@ router.put('/updateTimetables/:name/:token', passport.authenticate('jwt', {sessi
             try {
                 timetables = fs.readFileSync('./timetables.json', 'utf8');
                 savedTimetables = JSON.parse(timetables);
-            }
-            catch(err) {
-            }
-            //Find a table that matches the email and original name
-            let schName = validator.trim(originalName);
-            schName = schName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-            const tracker = savedTimetables.find(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
-            const index = savedTimetables.findIndex(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
-            //Check for valid courses
-            if(tracker) {
-                let courseChecker = true;
-                newItem.courses.forEach(e => {
-                    let sub = validator.escape(validator.trim(String(e.subject)));
-                    let crse = validator.escape(validator.trim(String(e.catalog_nbr)));
-                    const sTracker = timetable.find(ele => String(ele.subject) === sub);
-                    const cTracker = timetable.find(ele => String(ele.catalog_nbr) === crse);
-                    if(!(sTracker && cTracker)) {
-                        courseChecker = false;
-                    }
-                })
-                //Remove duplicates
-                if(courseChecker) {
-                    let dupRemove = [];
+                //Find a table that matches the email and original name
+                let schName = validator.trim(originalName);
+                schName = schName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+                const tracker = savedTimetables.find(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
+                const index = savedTimetables.findIndex(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
+                //Check for valid courses
+                if(tracker) {
+                    let courseChecker = true;
                     newItem.courses.forEach(e => {
-                        let subE = validator.escape(validator.trim(String(e.subject)));
-                        let crseE = validator.escape(validator.trim(String(e.catalog_nbr)));
-                        const sCheck = dupRemove.find(p => p.subject === subE);
-                        const cCheck = dupRemove.find(p => p.catalog_nbr === crseE);
-                        if(!(sCheck && cCheck)) {
-                            dupRemove.push(e);
+                        let sub = validator.escape(validator.trim(String(e.subject)));
+                        let crse = validator.escape(validator.trim(String(e.catalog_nbr)));
+                        const sTracker = timetable.find(ele => String(ele.subject) === sub);
+                        const cTracker = timetable.find(ele => String(ele.catalog_nbr) === crse);
+                        if(!(sTracker && cTracker)) {
+                            courseChecker = false;
                         }
                     })
-                    newItem.courses = dupRemove;
-                    currDate = new Date();
-                    newItem.last_updated = currDate.toString();
-                    savedTimetables.splice(index, 1);
-                    savedTimetables.unshift(newItem);
-                    //Update table
-                    fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
-                        if (err) throw err;
-                        }); 
-                    res.status(204).send(`Timetable Updated`);
+                    //Remove duplicates
+                    if(courseChecker) {
+                        let dupRemove = [];
+                        newItem.courses.forEach(e => {
+                            let subE = validator.escape(validator.trim(String(e.subject)));
+                            let crseE = validator.escape(validator.trim(String(e.catalog_nbr)));
+                            const sCheck = dupRemove.find(p => p.subject === subE);
+                            const cCheck = dupRemove.find(p => p.catalog_nbr === crseE);
+                            if(!(sCheck && cCheck)) {
+                                dupRemove.push(e);
+                            }
+                        })
+                        newItem.courses = dupRemove;
+                        currDate = new Date();
+                        newItem.last_updated = currDate.toString();
+                        savedTimetables.splice(index, 1);
+                        savedTimetables.unshift(newItem);
+                        //Update table
+                        fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
+                            if (err) throw err;
+                            }); 
+                        res.status(204).send(`Timetable Updated`);
+                    }
+                    else {
+                        res.status(404).send(`One or more subjects or courses do not exist`);
+                    }
                 }
                 else {
-                    res.status(404).send(`One or more subjects or courses do not exist`);
+                    res.status(404).send(`Timetable ${schName} was not found`);
                 }
             }
-            else {
-                res.status(404).send(`Timetable ${schName} was not found`);
+            catch(err) {
             }
         }
     });
@@ -142,61 +142,62 @@ router.post('/createTimetables/:token', passport.authenticate('jwt', {session: f
             try {
                 timetables = fs.readFileSync('./timetables.json', 'utf8');
                 savedTimetables = JSON.parse(timetables);
-            }
-            catch(err) {
-            }
-            let timetableCount = 0;
-            //Check how many tables currently exist for this account
-            savedTimetables.forEach(p => {
-                if(p.creator_email == uEmail) {
-                    timetableCount++;
-                }
-            })
-            //Check for valid courses
-            if(timetableCount < 20) {
-                let courseChecker = true;
-                newItem.courses.forEach(e => {
-                    let sub = validator.escape(validator.trim(String(e.subject)));
-                    let crse = validator.escape(validator.trim(String(e.catalog_nbr)));
-                    const sTracker = timetable.find(ele => String(ele.subject) === sub);
-                    const cTracker = timetable.find(ele => String(ele.catalog_nbr) === crse);
-                    if(!(sTracker && cTracker)) {
-                        courseChecker = false;
+                let timetableCount = 0;
+                //Check how many tables currently exist for this account
+                savedTimetables.forEach(p => {
+                    if(p.creator_email == uEmail) {
+                        timetableCount++;
                     }
                 })
-                //Remove duplicates
-                if(courseChecker) {
-                    let dupRemove = [];
+                //Check for valid courses
+                if(timetableCount < 20) {
+                    let courseChecker = true;
                     newItem.courses.forEach(e => {
-                        let subE = validator.escape(validator.trim(String(e.subject)));
-                        let crseE = validator.escape(validator.trim(String(e.catalog_nbr)));
-                        const sCheck = dupRemove.find(p => p.subject === subE);
-                        const cCheck = dupRemove.find(p => p.catalog_nbr === crseE);
-                        if(!(sCheck && cCheck)) {
-                            dupRemove.push(e);
+                        let sub = validator.escape(validator.trim(String(e.subject)));
+                        let crse = validator.escape(validator.trim(String(e.catalog_nbr)));
+                        const sTracker = timetable.find(ele => String(ele.subject) === sub);
+                        const cTracker = timetable.find(ele => String(ele.catalog_nbr) === crse);
+                        if(!(sTracker && cTracker)) {
+                            courseChecker = false;
                         }
                     })
-                    newItem.courses = dupRemove;
-                    currDate = new Date();
-                    newItem.last_updated = currDate.toString();
-                    savedTimetables.unshift(newItem);
-                    //Update table
-                    fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
-                        if (err) throw err;
-                    }); 
-                    res.status(204).send(`Timetable Added`);
+                    //Remove duplicates
+                    if(courseChecker) {
+                        let dupRemove = [];
+                        newItem.courses.forEach(e => {
+                            let subE = validator.escape(validator.trim(String(e.subject)));
+                            let crseE = validator.escape(validator.trim(String(e.catalog_nbr)));
+                            const sCheck = dupRemove.find(p => p.subject === subE);
+                            const cCheck = dupRemove.find(p => p.catalog_nbr === crseE);
+                            if(!(sCheck && cCheck)) {
+                                dupRemove.push(e);
+                            }
+                        })
+                        newItem.courses = dupRemove;
+                        currDate = new Date();
+                        newItem.last_updated = currDate.toString();
+                        savedTimetables.unshift(newItem);
+                        //Update table
+                        fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
+                            if (err) throw err;
+                        }); 
+                        res.status(204).send(`Timetable Added`);
+                    }
+                    else {
+                        res.status(404).send(`One or more subjects or courses do not exist`);
+                    }
                 }
                 else {
-                    res.status(404).send(`One or more subjects or courses do not exist`);
+                    res.status(404).send(`User already has 20 tables`);
                 }
             }
-            else {
-                res.status(404).send(`User already has 20 tables`);
+            catch(err) {
             }
         }
     });
 });
 
+//Delete table
 router.delete('/deleteTable/:name/:token', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     //Verify user using jwt token
     let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
@@ -209,21 +210,66 @@ router.delete('/deleteTable/:name/:token', passport.authenticate('jwt', {session
             try {
                 timetables = fs.readFileSync('./timetables.json', 'utf8');
                 savedTimetables = JSON.parse(timetables);
+                //Find a table that matches the email and name
+                let schName = validator.trim(req.params.name);
+                schName = schName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+                const tracker = savedTimetables.find(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
+                const index = savedTimetables.findIndex(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
+                if(tracker) {
+                    savedTimetables.splice(index, 1);
+                    //Remove table
+                    fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
+                        if (err) throw err;
+                    }); 
+                    res.status(204).send(`Successfully removed`);
+                }
             }
             catch(err) {
             }
-            //Find a table that matches the email and name
-            let schName = validator.trim(req.params.name);
-            schName = schName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-            const tracker = savedTimetables.find(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
-            const index = savedTimetables.findIndex(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
-            if(tracker) {
-                savedTimetables.splice(index, 1);
-                //Remove table
-                fs.writeFile('timetables.json', JSON.stringify(savedTimetables), function (err) {
-                    if (err) throw err;
-                }); 
-                res.status(204).send(`Successfully removed`);
+        }
+    });
+});
+
+//Add review
+router.post('/addReview/:token', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    //Verify user using jwt token
+    let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
+    let data = req.body;
+    User.findOne({_id: uId}, (err, user) => {
+        if(err) throw err;
+        if(user) {
+            let savedReviews;
+            try {
+                let ratings = [1, 2, 3, 4, 5];
+                let reviews = fs.readFileSync('./reviews.json', 'utf8');
+                savedReviews = JSON.parse(reviews);
+                const sTracker = timetable.find(ele => String(ele.subject) === data.subject);
+                const cTracker = timetable.find(ele => String(ele.catalog_nbr) === data.catalog_nbr);
+                let rating;
+                try{
+                    rating = ratings.find(e => e == parseInt(data.rating, 10));
+                    if(sTracker && cTracker && rating) {
+                        let currDate = new Date();
+                        let out = {
+                            "author": user.name,
+                            "date": currDate.toString(),
+                            "review": validator.escape(validator.trim(String(data.review))),
+                            "rating": rating,
+                            "subject": validator.escape(validator.trim(String(data.subject)).toUpperCase()),
+                            "catalog_nbr": validator.escape(validator.trim(String(data.catalog_nbr)).toUpperCase())
+                        }
+                        savedReviews.push(out);
+                        fs.writeFile('reviews.json', JSON.stringify(savedReviews), function (err) {
+                            if (err) throw err;
+                        }); 
+                        res.status(204).send(`Successfully added`);
+                    } else {
+                        res.status(404).send(`Invalid entries`);
+                    }
+                }
+                catch {}
+            }
+            catch(err) {
             }
         }
     });

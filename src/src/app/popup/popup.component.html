@@ -7,6 +7,15 @@
 <p>Campus: {{data.course_info[0].campus}} | {{data.course_info[0].facility_ID}}</p>
 <p>Status: {{data.course_info[0].enrl_stat}}</p>
 <p>{{data.course_info[0].descrlong}}{{data.course_info[0].descr}}</p>
+<p>Reviews:</p>
+<hr class="my-2">
+<div *ngFor="let review of reviewsList">
+    <p>Author: {{review.author}}</p>
+    <p>Date Added: {{review.date}}</p>
+    <p>Review: {{review.review}}</p>
+    <p>Rating: {{review.rating}}</p>
+    <hr class="my-2">
+</div>
 </mat-dialog-content>
 
 <mat-dialog-actions>

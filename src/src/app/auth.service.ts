@@ -103,6 +103,20 @@ export class AuthService {
     return this.http.delete(`http://localhost:3000/secure/deleteTable/${name}/${this.authToken}`, httpOptions);
   }
 
+  public getReviews(subject: String, course: String): Observable<any> {
+    return this.http.get(`http://localhost:3000/general/reviews/${subject}/${course}`);
+  }
+
+  public createReview(data): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    }; 
+    return this.http.post(`http://localhost:3000/secure/addReview/${this.authToken}`, data, httpOptions);
+  }
+
   logout() {
     this.authToken = null;
     this.user = null;

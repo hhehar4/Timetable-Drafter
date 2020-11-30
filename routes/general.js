@@ -68,6 +68,7 @@ router.get('/times/:flag/:input1?/:input2?', (req, res) => {
     }
 });
 
+//Verify courses exist
 router.get('/verify/:input1/:input2', (req, res) => {
     let firstPass = [];
     let secondPass = [];
@@ -166,6 +167,32 @@ router.get('/publicLists', (req, res) => {
     }
     catch(err) {
         res.status(404).send(`No timetables exist`);
+    }
+});
+
+//Get all reviews for a specific course
+router.get('/reviews/:subject/:course', (req, res) => {
+    //ADD INPUT VALIDATION
+    let uSub = req.params.subject;
+    let uCrse = req.params.course;
+    let savedReviews
+    let outList = [];
+    try {
+        let reviews = fs.readFileSync('./reviews.json', 'utf8');
+        savedReviews = JSON.parse(reviews);
+        //Find a table that matches the email and name
+        const tracker = savedReviews.find(p => ((p.subject === uSub) && (p.catalog_nbr == uCrse)));
+        const index = savedReviews.findIndex(p => ((p.subject === uSub) && (p.catalog_nbr == uCrse)));
+        if(tracker) {
+            savedReviews.forEach(e => {
+                if((String(e.subject) === String(uSub)) && (String(e.catalog_nbr) === String(uCrse))) {
+                    outList.push(e);
+                }
+            });
+            res.send(outList);
+        }
+    }
+    catch(err) {
     }
 });
 
