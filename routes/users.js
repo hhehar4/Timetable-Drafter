@@ -9,11 +9,14 @@ dotenv.config();
 
 router.post('/register', (req, res, next) => {
     //ADD INPUT VALIDATION HERE
+    //IF NAME == ADMINISTRATOR SEND res.json({success: false, msg: 'Failed to register'});
     const email = req.body.email;
     const user = new User({
         name: req.body.name,
         email: email,
-        password: req.body.password
+        password: req.body.password,
+        role: "USER",
+        active: true
     });
     
     User.findOne({email: email}, (err, userCheck) => {
@@ -41,30 +44,44 @@ router.post('/authenticate', (req, res, next) => {
         if(err) throw err;
         if(!user) {
             res.json({success: false, msg: 'No such user'});
-        }
-
-        User.comparePass(password, user.password, (err, isMatch) => {
-            if(err) throw err;
-            if(isMatch) {
-                const token = jwt.sign({_id: user._id}, process.env.SECRET);
-                res.json({
-                    success: true,
-                    token: token,
-                    user: {
-                        id: user._id,
-                        name: user.name,
-                        email: user.email
+        } else {
+            User.comparePass(password, user.password, (err, isMatch) => {
+                if(err) throw err;
+                if(isMatch) {
+                    if(user.active) {
+                        const token = jwt.sign({_id: user._id}, process.env.SECRET);
+                        if(user.role == "ADMIN") {
+                            res.json({
+                                success: true,
+                                token: token,
+                                user: {
+                                    id: user._id,
+                                    name: user.name,
+                                    email: user.email,
+                                    admin: true
+                                }
+                            });
+                        } else {
+                            res.json({
+                                success: true,
+                                token: token,
+                                user: {
+                                    id: user._id,
+                                    name: user.name,
+                                    email: user.email,
+                                    admin: false
+                                }
+                            });
+                        }
+                    } else {
+                        res.json({success: false, msg: 'Account deactivated. Contact administrator at admin@admin.com'});
                     }
-                });
-            } else {
-                res.json({success: false, msg: 'Invalid password'});
-            }
-        })
+                } else {
+                    res.json({success: false, msg: 'Invalid password'});
+                }
+            })
+        }
     });
-});
-
-router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    res.json({user: req.user})
 });
 
 module.exports = router; 

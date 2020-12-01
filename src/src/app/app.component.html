@@ -6,17 +6,19 @@
       </button>
       <span class="title">Timetable Drafter</span>
       <span class="example-spacer"></span>
+      <span class="title" *ngIf="!authService.loggedIn() && authService.checkAdmin()">Administrator</span>
+      <span class="example-spacer"></span>
       <div fxShow="true" fxHide.lt-md="true">
-        <a routerLink="/"  mat-button>
+        <a routerLink="/" mat-button>
           Home
         </a>
-        <a routerLink="/courses"  mat-button>
+        <a *ngIf="!authService.checkAdmin()" routerLink="/courses"  mat-button>
           Courses
         </a>
-        <a routerLink="/lists"  mat-button>
+        <a *ngIf="!authService.checkAdmin()" routerLink="/lists"  mat-button>
           Public Lists
         </a>
-        <a *ngIf="!authService.loggedIn()" routerLink="/personalLists"  mat-button>
+        <a *ngIf="!authService.loggedIn() && !authService.checkAdmin()" routerLink="/personalLists"  mat-button>
           My Lists
         </a>
         <a *ngIf="authService.loggedIn()" routerLink="/login"  mat-button>

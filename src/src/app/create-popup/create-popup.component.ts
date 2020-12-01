@@ -40,7 +40,6 @@ export class CreatePopupComponent implements OnInit {
         });
       },
       error => {
-        alert(error.error);
         this.listNames = [];
       }
     );

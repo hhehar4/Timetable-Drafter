@@ -38,8 +38,13 @@ export class LoginComponent implements OnInit {
         response => {
           this.dataRegister = response;
           if(this.dataRegister.success) {
-            this.authService.storeUser(this.dataRegister.token, this.dataRegister.user);
-            this.router.navigate(['']);
+            if(this.dataRegister.user.admin) {
+              this.authService.storeUser(this.dataRegister.token, this.dataRegister.user);
+              this.router.navigate(['admin']);
+            } else {
+              this.authService.storeUser(this.dataRegister.token, this.dataRegister.user);
+              this.router.navigate(['']);
+            }
           } else {
             alert(this.dataRegister.msg)
             this.router.navigate(['login']);

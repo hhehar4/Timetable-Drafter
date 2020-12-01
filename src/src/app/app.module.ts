@@ -28,6 +28,8 @@ import { EditPopupComponent } from './edit-popup/edit-popup.component';
 import { CreatePopupComponent } from './create-popup/create-popup.component';
 import { DeletePopupComponent } from './delete-popup/delete-popup.component';
 import { ReviewPopupComponent } from './review-popup/review-popup.component';
+import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from './admin.guard';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { ReviewPopupComponent } from './review-popup/review-popup.component';
     EditPopupComponent,
     CreatePopupComponent,
     DeletePopupComponent,
-    ReviewPopupComponent
+    ReviewPopupComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,7 @@ import { ReviewPopupComponent } from './review-popup/review-popup.component';
     NoopAnimationsModule,
     FormsModule
   ],
-  providers: [ValidateService, AuthService, AuthGuard],
+  providers: [ValidateService, AuthService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

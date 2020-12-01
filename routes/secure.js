@@ -256,7 +256,8 @@ router.post('/addReview/:token', passport.authenticate('jwt', {session: false}),
                             "review": validator.escape(validator.trim(String(data.review))),
                             "rating": rating,
                             "subject": validator.escape(validator.trim(String(data.subject)).toUpperCase()),
-                            "catalog_nbr": validator.escape(validator.trim(String(data.catalog_nbr)).toUpperCase())
+                            "catalog_nbr": validator.escape(validator.trim(String(data.catalog_nbr)).toUpperCase()),
+                            "hidden" : false
                         }
                         savedReviews.push(out);
                         fs.writeFile('reviews.json', JSON.stringify(savedReviews), function (err) {

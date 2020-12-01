@@ -10,10 +10,10 @@
 <p>Reviews:</p>
 <hr class="my-2">
 <div *ngFor="let review of reviewsList">
-    <p>Author: {{review.author}}</p>
-    <p>Date Added: {{review.date}}</p>
-    <p>Review: {{review.review}}</p>
-    <p>Rating: {{review.rating}}</p>
+    <p *ngIf="!review.hidden">Author: {{review.author}}</p>
+    <p *ngIf="!review.hidden">Date Added: {{review.date}}</p>
+    <p *ngIf="!review.hidden">Review: {{review.review}}</p>
+    <p *ngIf="!review.hidden">Rating: {{review.rating}}</p>
     <hr class="my-2">
 </div>
 </mat-dialog-content>

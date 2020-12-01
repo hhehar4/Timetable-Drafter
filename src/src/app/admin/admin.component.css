@@ -1,0 +1,27 @@
+.create-button {
+    background-color: #5c6bc0;
+    margin: 2px;
+    color: white;
+}
+
+.top-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+li {
+    margin: 5px;
+    height: auto;
+    list-style-type: none;
+    margin-bottom: 15px;
+}
+
+.inner {
+    font-size: 15px;
+}
+
+a {
+    text-align: center;
+    color: rgb(67, 133, 255);
+}

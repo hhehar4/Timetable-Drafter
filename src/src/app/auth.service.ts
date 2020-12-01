@@ -30,6 +30,14 @@ export class AuthService {
     return this.http.post('http://localhost:3000/users/authenticate', user, httpOptions);
   }
 
+  checkAdmin() {
+    try {
+      return this.user.admin;
+    } catch {
+      return false;
+    }
+  }
+
   storeUser(token, user) {
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user));
@@ -39,6 +47,16 @@ export class AuthService {
 
   public keywordSearch(keyword: String): Observable<any>  {
     return this.http.get(`http://localhost:3000/general/keyword/${keyword}`);
+  }
+
+  public getUsers(): Observable<any>  {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    };
+    return this.http.get(`http://localhost:3000/admin/getUsers/${this.authToken}`, httpOptions);
   }
 
   public baseSearch(flag: String, input1: String, input2: String): Observable<any>  {
@@ -115,6 +133,16 @@ export class AuthService {
       }
     }; 
     return this.http.post(`http://localhost:3000/secure/addReview/${this.authToken}`, data, httpOptions);
+  }
+
+  public toggleUserStatus(user): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    }; 
+    return this.http.put(`http://localhost:3000/admin/toggleUserStatus/${this.authToken}`, user, httpOptions);
   }
 
   logout() {
