@@ -59,6 +59,16 @@ export class AuthService {
     return this.http.get(`http://localhost:3000/admin/getUsers/${this.authToken}`, httpOptions);
   }
 
+  public getAllReviews(): Observable<any>  {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    };
+    return this.http.get(`http://localhost:3000/admin/getReviews/${this.authToken}`, httpOptions);
+  }
+
   public baseSearch(flag: String, input1: String, input2: String): Observable<any>  {
     if(input1) {
         if(input2) {
@@ -143,6 +153,26 @@ export class AuthService {
       }
     }; 
     return this.http.put(`http://localhost:3000/admin/toggleUserStatus/${this.authToken}`, user, httpOptions);
+  }
+
+  public toggleReviewStatus(review): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    }; 
+    return this.http.put(`http://localhost:3000/admin/toggleReviewStatus/${this.authToken}`, review, httpOptions);
+  }
+
+  public assignAdmin(user): Observable<any> {
+    const httpOptions = {
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${this.authToken}`
+      }
+    }; 
+    return this.http.put(`http://localhost:3000/admin/assignAdmin/${this.authToken}`, user, httpOptions);
   }
 
   logout() {

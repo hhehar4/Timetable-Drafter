@@ -5,11 +5,19 @@
 
 <div class='container' *ngIf="reviewsToggle">
     <div *ngFor="let review of reviewsList">
-        <p>Author: </p>
-        <p>Date Added:</p>
-        <p>Review: </p>
-        <p>Rating: </p>
-        <a mat-button class="create-button">View all Users</a>
+        <p>Author: {{review.author}}</p>
+        <p>Date Added: {{review.date}}</p>
+        <p>Course: {{review.subject}} {{review.catalog_nbr}}</p>
+        <p>Review: {{review.review}}</p>
+        <p>Rating: {{review.rating}}</p>
+        <p>Status:
+            <span *ngIf="review.hidden">Hidden
+                <a mat-button class="create-button" (click)="toggleReviewStatus(review)">Show</a>
+            </span>
+            <span *ngIf="!review.hidden">Visible
+                <a mat-button class="create-button" (click)="toggleReviewStatus(review)">Hide</a>
+            </span> 
+        </p>
         <hr class="my-2">
     </div>
 </div>
@@ -19,7 +27,9 @@
         <p>Username: {{user.name}}</p>
         <p>Email: {{user.email}}</p>
         <p>Role: {{user.role}} 
-            <a mat-button class="create-button" (click)="assignAdmin(user)">Assign Admin</a>
+            <span *ngIf="user.role != 'ADMIN'">
+                <a mat-button class="create-button" (click)="assignAdmin(user)">Assign Admin</a>
+            </span> 
         </p>
         <p>Account Status: 
             <span *ngIf="user.active">Active

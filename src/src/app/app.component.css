@@ -10,6 +10,7 @@
   .title {
     font-size: 25px;
     background-color:#303f9f;
+    white-space: pre;
   }
   
   .content {
