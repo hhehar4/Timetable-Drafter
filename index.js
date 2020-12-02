@@ -30,7 +30,7 @@ require('./config/passport')(passport);
 
 app.use(cors());
 
-app.use('/', express.static(__dirname + '/src/dist/src')); 
+app.use('/', express.static(__dirname + '/dist/src')); 
 
 app.use('/users', users);
 app.use('/general', general);
