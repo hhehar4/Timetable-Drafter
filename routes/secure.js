@@ -12,39 +12,47 @@ const timetable = JSON.parse(data);
 dotenv.config();
 
 //Get personal timetables
-router.get('/myLists/:email', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    //Check for valid email
-    if(validator.isEmail(validator.trim(req.params.email))) {
-        let uEmail = validator.trim(req.params.email);
-        let savedTimetables = [];
-        let timetables;
-        let outList = [];
-        try {
-            //Get all timetables
-            timetables = fs.readFileSync('./timetables.json', 'utf8');
-            savedTimetables = JSON.parse(timetables);
-            //Filter for timetables with same creator email as request email
-            for(let i = 0; i < savedTimetables.length; i++) {
-                if(savedTimetables[i].creator_email == uEmail) {
-                    const temp = {
-                        "timetable_name": savedTimetables[i].timetable_name,
-                        "creator_name": savedTimetables[i].creator_name,
-                        "last_updated": savedTimetables[i].last_updated,
-                        "description": savedTimetables[i].description,
-                        "courses": savedTimetables[i].courses
+router.get('/myLists/:token', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+     //Verify user using jwt token
+     let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
+     let uEmail = "";
+     //Find the user who sent the request
+     User.findOne({_id: uId}, (err, user) => {
+         if(err) throw err;
+         if(user) {
+            uEmail = user.email;
+            let savedTimetables = [];
+            let timetables;
+            let outList = [];
+            try {
+                //Get all timetables
+                timetables = fs.readFileSync('./timetables.json', 'utf8');
+                savedTimetables = JSON.parse(timetables);
+                //Filter for timetables with same creator email as request email
+                for(let i = 0; i < savedTimetables.length; i++) {
+                    if(savedTimetables[i].creator_email == uEmail) {
+                        const temp = {
+                            "timetable_name": savedTimetables[i].timetable_name,
+                            "creator_name": savedTimetables[i].creator_name,
+                            "last_updated": savedTimetables[i].last_updated,
+                            "description": savedTimetables[i].description,
+                            "courses": savedTimetables[i].courses
+                        }
+                        outList.push(savedTimetables[i]);
+                    } 
+                    else {
+                        continue;
                     }
-                    outList.push(savedTimetables[i]);
-                } 
-                else {
-                    continue;
                 }
+                res.send(outList);
             }
-            res.send(outList);
+            catch(err) {
+                res.status(404).send(`No timetables exist`);
+            }
+        } else {
+            
         }
-        catch(err) {
-            res.status(404).send(`No timetables exist`);
-        }
-    }
+     });
 });
 
 //Edit timetables, modified from previous lab

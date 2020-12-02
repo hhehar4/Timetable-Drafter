@@ -107,7 +107,7 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     };
-    return this.http.get(`/secure/myLists/${this.user.email}`, httpOptions);
+    return this.http.get(`/secure/myLists/${this.authToken}`, httpOptions);
   }
 
   //Sends backend request to update timetable, only works for logged in users due to token
