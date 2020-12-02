@@ -39,11 +39,20 @@
   <mat-sidenav-container fxFlexFill>
     <mat-sidenav #sidenav>
       <mat-nav-list>
+        <a *ngIf="!authService.loggedIn() && authService.checkAdmin()" routerLink="/admin" (click)="sidenav.toggle()" mat-list-item>
+          Admin Panel
+        </a>
         <a routerLink="/" (click)="sidenav.toggle()" mat-list-item>
           Home
         </a>
         <a routerLink="/courses" (click)="sidenav.toggle()" mat-list-item>
           Courses
+        </a>
+        <a routerLink="/lists" (click)="sidenav.toggle()" mat-list-item>
+          Public Lists
+        </a>
+        <a *ngIf="!authService.loggedIn()" routerLink="/personalLists" (click)="sidenav.toggle()" mat-list-item>
+          My Lists
         </a>
         <a *ngIf="authService.loggedIn()" routerLink="/login" (click)="sidenav.toggle()" mat-list-item>
           Login
