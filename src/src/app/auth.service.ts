@@ -20,7 +20,7 @@ export class AuthService {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
 
-    return this.http.post('users/register', user, httpOptions);
+    return this.http.post('/users/register', user, httpOptions);
   }
 
   //Sends backend request to authenticate user login
@@ -29,7 +29,7 @@ export class AuthService {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
 
-    return this.http.post('users/authenticate', user, httpOptions);
+    return this.http.post('/users/authenticate', user, httpOptions);
   }
 
   //Checks if the user has admin status
@@ -51,7 +51,7 @@ export class AuthService {
 
   //Sends backend request for keyword search
   public keywordSearch(keyword: String): Observable<any>  {
-    return this.http.get(`general/keyword/${keyword}`);
+    return this.http.get(`/general/keyword/${keyword}`);
   }
 
   //Sends backend request to get all users, only works for admin due to token
@@ -62,7 +62,7 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     };
-    return this.http.get(`admin/getUsers/${this.authToken}`, httpOptions);
+    return this.http.get(`/admin/getUsers/${this.authToken}`, httpOptions);
   }
 
   //Sends backend request to get all reviews, only works for admin due to token
@@ -73,30 +73,30 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     };
-    return this.http.get(`admin/getReviews/${this.authToken}`, httpOptions);
+    return this.http.get(`/admin/getReviews/${this.authToken}`, httpOptions);
   }
 
   //Sends backend request for subject and course search
   public baseSearch(flag: String, input1: String, input2: String): Observable<any>  {
     if(input1) {
         if(input2) {
-          return this.http.get(`general/times/${flag}/${input1}/${input2}`);
+          return this.http.get(`/general/times/${flag}/${input1}/${input2}`);
         } else {
-          return this.http.get(`general/times/${flag}/${input1}`);
+          return this.http.get(`/general/times/${flag}/${input1}`);
         }
     } else {
-      return this.http.get(`general/times/${flag}`);
+      return this.http.get(`/general/times/${flag}`);
     }
   }
 
   //Sends backend request to verify if a course exists
   public verifyCourse(input1: String, input2: String): Observable<any>  {
-    return this.http.get(`general/verify/${input1}/${input2}`); 
+    return this.http.get(`/general/verify/${input1}/${input2}`); 
   }
 
   //Sends backend request to get all lists which are public
   public getPublicLists(): Observable<any> {
-    return this.http.get(`general/publicLists`);
+    return this.http.get(`/general/publicLists`);
   }
 
   //Sends backend request to get all personal lists, only works for logged in users due to token
@@ -107,7 +107,7 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     };
-    return this.http.get(`secure/myLists/${this.user.email}`, httpOptions);
+    return this.http.get(`/secure/myLists/${this.user.email}`, httpOptions);
   }
 
   //Sends backend request to update timetable, only works for logged in users due to token
@@ -119,7 +119,7 @@ export class AuthService {
       }
     }; 
     data.courses = courses;
-    return this.http.put(`secure/updateTimetables/${originalName}/${this.authToken}`, data, httpOptions);
+    return this.http.put(`/secure/updateTimetables/${originalName}/${this.authToken}`, data, httpOptions);
   }
 
   //Sends backend request to create new timetable, only works for logged in users due to token
@@ -131,7 +131,7 @@ export class AuthService {
       }
     }; 
     data.courses = courses;
-    return this.http.post(`secure/createTimetables/${this.authToken}`, data, httpOptions);
+    return this.http.post(`/secure/createTimetables/${this.authToken}`, data, httpOptions);
   }
 
   //Sends backend request to delete timetable, only works for logged in users due to token
@@ -142,12 +142,12 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     }; 
-    return this.http.delete(`secure/deleteTable/${name}/${this.authToken}`, httpOptions);
+    return this.http.delete(`/secure/deleteTable/${name}/${this.authToken}`, httpOptions);
   }
 
   //Sends backend request to get all reviews for a given course
   public getReviews(subject: String, course: String): Observable<any> {
-    return this.http.get(`general/reviews/${subject}/${course}`);
+    return this.http.get(`/general/reviews/${subject}/${course}`);
   }
 
   //Sends backend request to create a review for a given course, only works for logged in users due to token
@@ -158,7 +158,7 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     }; 
-    return this.http.post(`secure/addReview/${this.authToken}`, data, httpOptions);
+    return this.http.post(`/secure/addReview/${this.authToken}`, data, httpOptions);
   }
 
   //Sends backend a request to activate/deactivate user accounts, only works for admins due to token
@@ -169,7 +169,7 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     }; 
-    return this.http.put(`admin/toggleUserStatus/${this.authToken}`, user, httpOptions);
+    return this.http.put(`/admin/toggleUserStatus/${this.authToken}`, user, httpOptions);
   }
 
   //Sends backend a request to show/hide reviews, only works for admins due to token
@@ -180,7 +180,7 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     }; 
-    return this.http.put(`admin/toggleReviewStatus/${this.authToken}`, review, httpOptions);
+    return this.http.put(`/admin/toggleReviewStatus/${this.authToken}`, review, httpOptions);
   }
 
   //Sends backend a request to assign admin to user accounts, only works for admins due to token
@@ -191,7 +191,7 @@ export class AuthService {
         "Authorization": `Bearer ${this.authToken}`
       }
     }; 
-    return this.http.put(`admin/assignAdmin/${this.authToken}`, user, httpOptions);
+    return this.http.put(`/admin/assignAdmin/${this.authToken}`, user, httpOptions);
   }
 
   //Clears local storage and saved user data
