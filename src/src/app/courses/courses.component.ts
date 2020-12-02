@@ -21,6 +21,7 @@ export class CoursesComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //Take the keyword entered and request the backend for keyword search
   keySearch() {
     try {
       this.tempVal = this.keyword.toUpperCase();
@@ -39,6 +40,7 @@ export class CoursesComponent implements OnInit {
     this.keyword = null;
   }
 
+  //Take the subject and course entered and request backend for search
   baseSearch() {
     if(this.subIn) {
       if(this.crseIn) {
@@ -100,6 +102,7 @@ export class CoursesComponent implements OnInit {
     }
   }
   
+  //Opens the popup which allows you to add a review to a course
   openReviewDialog(subject) {
     const dialogConfig = new MatDialogConfig();
 
@@ -110,6 +113,7 @@ export class CoursesComponent implements OnInit {
     this.matDialog.open(ReviewPopupComponent, dialogConfig);
   }
 
+  //Opens the popup which shows you more details about a course
   openDialog(subject) {
     const dialogConfig = new MatDialogConfig();
 

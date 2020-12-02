@@ -22,10 +22,10 @@ export class RegisterComponent implements OnInit {
 
   registerSubmit() {
     const user = {
-      name: this.name,
-      email: this.email,
-      password: this.password,
-      vPassword: this.vPassword
+      name: this.name.trim(),
+      email: this.email.trim(),
+      password: this.password.trim(),
+      vPassword: this.vPassword.trim()
     }
 
     //Check if all fields are there
@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
       alert("Please enter a valid email");
     }
 
-    //Register user
+    //Ask backend to register user
     this.authService.regUser(user).subscribe(
       response => {
         this.dataRegister = response;

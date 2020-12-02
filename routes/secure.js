@@ -11,55 +11,60 @@ const timetable = JSON.parse(data);
 
 dotenv.config();
 
-//Get personal lists
+//Get personal timetables
 router.get('/myLists/:email', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    //ADD INPUT VALIDATION
-    let uEmail = req.params.email;
-    let savedTimetables = [];
-    let timetables;
-    let outList = [];
-    try {
-        timetables = fs.readFileSync('./timetables.json', 'utf8');
-        savedTimetables = JSON.parse(timetables);
-        for(let i = 0; i < savedTimetables.length; i++) {
-            if(savedTimetables[i].creator_email == uEmail) {
-                const temp = {
-                    "timetable_name": savedTimetables[i].timetable_name,
-                    "creator_name": savedTimetables[i].creator_name,
-                    "last_updated": savedTimetables[i].last_updated,
-                    "description": savedTimetables[i].description,
-                    "courses": savedTimetables[i].courses
+    //Check for valid email
+    if(validator.isEmail(validator.trim(req.params.email))) {
+        let uEmail = validator.trim(req.params.email);
+        let savedTimetables = [];
+        let timetables;
+        let outList = [];
+        try {
+            //Get all timetables
+            timetables = fs.readFileSync('./timetables.json', 'utf8');
+            savedTimetables = JSON.parse(timetables);
+            //Filter for timetables with same creator email as request email
+            for(let i = 0; i < savedTimetables.length; i++) {
+                if(savedTimetables[i].creator_email == uEmail) {
+                    const temp = {
+                        "timetable_name": savedTimetables[i].timetable_name,
+                        "creator_name": savedTimetables[i].creator_name,
+                        "last_updated": savedTimetables[i].last_updated,
+                        "description": savedTimetables[i].description,
+                        "courses": savedTimetables[i].courses
+                    }
+                    outList.push(savedTimetables[i]);
+                } 
+                else {
+                    continue;
                 }
-                outList.push(savedTimetables[i]);
-            } 
-            else {
-                continue;
             }
+            res.send(outList);
         }
-        res.send(outList);
-    }
-    catch(err) {
-        res.status(404).send(`No timetables exist`);
+        catch(err) {
+            res.status(404).send(`No timetables exist`);
+        }
     }
 });
 
-//Edit timetables
+//Edit timetables, modified from previous lab
 router.put('/updateTimetables/:name/:token', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     //Verify user using jwt token
     let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
     let uEmail = "";
+    //Find the user who sent the request
     User.findOne({_id: uId}, (err, user) => {
         if(err) throw err;
         if(user) {
             uEmail = user.email;
-            //ADD INPUT VALIDATION
-            let originalName = req.params.name;
+            //Validate inputs
+            let schName = validator.trim(req.params.name);
+            schName = schName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
             let newItem = req.body;
             let newName = validator.trim(String(newItem.timetable_name));
             newName = newName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
             newItem.timetable_name = newName;
-            let newDes = validator.trim(String(newItem.description));
-            newDes = newDes.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+            let newDes = validator.escape(validator.trim(String(newItem.description)));
             newItem.description = newDes;
             let savedTimetables;
             let timetables;
@@ -67,8 +72,6 @@ router.put('/updateTimetables/:name/:token', passport.authenticate('jwt', {sessi
                 timetables = fs.readFileSync('./timetables.json', 'utf8');
                 savedTimetables = JSON.parse(timetables);
                 //Find a table that matches the email and original name
-                let schName = validator.trim(originalName);
-                schName = schName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
                 const tracker = savedTimetables.find(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
                 const index = savedTimetables.findIndex(p => ((p.timetable_name === schName) && (p.creator_email == uEmail)));
                 //Check for valid courses
@@ -120,22 +123,22 @@ router.put('/updateTimetables/:name/:token', passport.authenticate('jwt', {sessi
     });
 });
 
-//Create timetable
+//Create timetable, modified from previous lab
 router.post('/createTimetables/:token', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     //Verify user using jwt token
     let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
     let uEmail = "";
+    //Find the user who sent the request
     User.findOne({_id: uId}, (err, user) => {
         if(err) throw err;
         if(user) {
             uEmail = user.email;
-            //ADD INPUT VALIDATION
+            //Validate inputs
             let newItem = req.body;
             let newName = validator.trim(String(newItem.timetable_name));
             newName = newName.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
             newItem.timetable_name = newName;
-            let newDes = validator.trim(String(newItem.description));
-            newDes = newDes.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+            let newDes = validator.escape(validator.trim(String(newItem.description)));
             newItem.description = newDes;
             let savedTimetables;
             let timetables;
@@ -143,7 +146,7 @@ router.post('/createTimetables/:token', passport.authenticate('jwt', {session: f
                 timetables = fs.readFileSync('./timetables.json', 'utf8');
                 savedTimetables = JSON.parse(timetables);
                 let timetableCount = 0;
-                //Check how many tables currently exist for this account
+                //Check how many tables currently exist for this account, sends error if 20 tables exist
                 savedTimetables.forEach(p => {
                     if(p.creator_email == uEmail) {
                         timetableCount++;
@@ -197,11 +200,12 @@ router.post('/createTimetables/:token', passport.authenticate('jwt', {session: f
     });
 });
 
-//Delete table
+//Delete table, modified from previous lab
 router.delete('/deleteTable/:name/:token', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     //Verify user using jwt token
     let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
     let uEmail = "";
+    //Find the user who sent the request
     User.findOne({_id: uId}, (err, user) => {
         if(err) throw err;
         if(user) {
@@ -235,6 +239,7 @@ router.post('/addReview/:token', passport.authenticate('jwt', {session: false}),
     //Verify user using jwt token
     let uId = jwt.verify(req.params.token, process.env.SECRET)._id;
     let data = req.body;
+    //Find the user who sent the request
     User.findOne({_id: uId}, (err, user) => {
         if(err) throw err;
         if(user) {
@@ -247,7 +252,9 @@ router.post('/addReview/:token', passport.authenticate('jwt', {session: false}),
                 const cTracker = timetable.find(ele => String(ele.catalog_nbr) === data.catalog_nbr);
                 let rating;
                 try{
+                    //Check if rating is between 1-5
                     rating = ratings.find(e => e == parseInt(data.rating, 10));
+                    //If course exists and valid rating, validate user input then add the review
                     if(sTracker && cTracker && rating) {
                         let currDate = new Date();
                         let out = {

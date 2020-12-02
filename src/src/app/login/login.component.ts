@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     else if(!this.validateService.validateEmail(this.email)) {
       alert("Please enter a valid email");
     }
-    //Login user
+    //Login user and redirect to appropriate page
     else {
       this.authService.authenticateUser(user).subscribe(
         response => {

@@ -13,10 +13,12 @@ export class AppComponent {
 
   constructor(private validateService: ValidateService, public authService: AuthService, private router: Router) { }
 
+  //Logs out upon refresh
   ngOnInit(): void {
     this.authService.logout();
   }
 
+  //Empties local storage of JWT and user upon logot
   logout() {
     this.authService.logout();
     alert("You have logged out");

@@ -24,6 +24,7 @@ export class ReviewPopupComponent implements OnInit {
     }
   }
 
+  //Send info to backend to create review
   save() {
     this.authService.createReview(this.tempData)
     .subscribe(
@@ -37,6 +38,7 @@ export class ReviewPopupComponent implements OnInit {
     );
   }
 
+  //Close the popup
   close() {
     this.dialogRef.close();
   }

@@ -15,6 +15,7 @@ export class DeletePopupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //Confirmation popup for deleting a list
   confirm() {
     this.authService.deleteTimetable(this.data.timetable_name)
     .subscribe(
@@ -28,6 +29,7 @@ export class DeletePopupComponent implements OnInit {
     );
   }
 
+  //Closes the popup
   close() {
     this.dialogRef.close();
   }

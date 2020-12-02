@@ -22,6 +22,7 @@ export class EditPopupComponent implements OnInit {
     this.tempCourses = this.tempData.courses;
   }
 
+  //Gets all list names for current user
   getPersonalListNames() {
     this.authService.getPersonalLists()
     .subscribe(
@@ -37,7 +38,9 @@ export class EditPopupComponent implements OnInit {
     );
   }
 
+  //Saves the updated list
   save() {
+    //Checks if the new list name is altered and if it conflicts with any existing names
     this.getPersonalListNames();
     if(String(this.tempData.timetable_name) != (String(this.data.timetable_name))) {
       const nameCheck = this.listNames.find(e => String(e) == String(this.tempData.timetable_name));
@@ -47,6 +50,7 @@ export class EditPopupComponent implements OnInit {
           }
           else {
             try { 
+              //Verify all courses exist then send backend a request to update the table
               for(let i = 0; i < this.tempCourses.length; i ++) {
                 this.authService.verifyCourse(String(this.tempCourses[i].subject).toUpperCase(), String(this.tempCourses[i].catalog_nbr).toUpperCase())
                 .subscribe(
@@ -132,14 +136,17 @@ export class EditPopupComponent implements OnInit {
     }
   }
 
+  //Add a new course row
   addCourse() {
     this.tempData.courses.push({});
   }
 
+  //Remove course from list
   removeCourse(course) {
     this.tempData.courses.splice(this.tempData.courses.indexOf(course), 1);
   }
 
+  //Close popup
   close() {
     this.dialogRef.close();
   }

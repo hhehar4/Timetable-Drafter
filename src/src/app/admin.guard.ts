@@ -7,6 +7,7 @@ export class AdminGuard implements CanActivate {
 
     constructor (private authService: AuthService, private router: Router) {}
 
+    //Ensures user can only access links specific to their authorization
     canActivate() {
         if(!(this.authService.loggedIn()) && (this.authService.checkAdmin())) {
             return true;

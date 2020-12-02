@@ -26,6 +26,7 @@ export class ListsComponent implements OnInit {
     this.selectedTimetable = null;
   }
 
+  //Request backend for 10 most recently updated public lists
   getPublicLists() {
     this.authService.getPublicLists()
     .subscribe(
@@ -39,6 +40,7 @@ export class ListsComponent implements OnInit {
     );
   }
 
+  //Opens the popup to show more details of a course within the list
   openDialog(subject) {
     const dialogConfig = new MatDialogConfig();
 

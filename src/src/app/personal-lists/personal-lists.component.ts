@@ -28,6 +28,7 @@ export class PersonalListsComponent implements OnInit {
     this.selectedTimetable = null;
   }
 
+  //Gets all the user's lists from backend
   getPersonalLists() {
     this.authService.getPersonalLists()
     .subscribe(
@@ -41,6 +42,7 @@ export class PersonalListsComponent implements OnInit {
     );
   }
 
+  //Opens popup to show details on courses within the lists
   openDialog(subject) {
     const dialogConfig = new MatDialogConfig();
 
@@ -51,6 +53,7 @@ export class PersonalListsComponent implements OnInit {
     this.matDialog.open(PopupComponent, dialogConfig);
   }
 
+  //Opens popup to create new list
   openCreateDialog() {
     const dialogConfig = new MatDialogConfig();
 
@@ -60,6 +63,7 @@ export class PersonalListsComponent implements OnInit {
     this.matDialog.open(CreatePopupComponent, dialogConfig);
   }
 
+  //Opens popup to edit a list
   openEditDialog(table) {
     const dialogConfig = new MatDialogConfig();
 
@@ -70,6 +74,7 @@ export class PersonalListsComponent implements OnInit {
     this.matDialog.open(EditPopupComponent, dialogConfig);
   }
 
+  //Opens popup to confirm deleting a list
   openDeleteDialog(table) {
     const dialogConfig = new MatDialogConfig();
 

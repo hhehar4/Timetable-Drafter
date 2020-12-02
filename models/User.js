@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema({
 const User = module.exports = mongoose.model('User', userSchema);
 
 module.exports.addUser = function(newUser, callback) {
+    //Encrypt user password using salt + hash before saving into DB
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
             if(err) throw err;
@@ -38,6 +39,7 @@ module.exports.addUser = function(newUser, callback) {
 }
 
 module.exports.comparePass = function(userIn, hash, callback) {
+    //Compare using the enrypted passwords
     bcrypt.compare(userIn, hash, (err, isMatch) => {
         if(err) throw err;
         callback(null, isMatch);

@@ -17,6 +17,7 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //Get all reviews from backend, show review view and hide user view
   toggleReviews() {
     this.authService.getAllReviews()
     .subscribe(
@@ -32,6 +33,7 @@ export class AdminComponent implements OnInit {
     this.usersToggle = false;
   }
 
+  //Switch the user status between active/deactive
   toggleUserStatus(user) {
     this.authService.toggleUserStatus(user)
     .subscribe(
@@ -44,6 +46,7 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  //Switch the review status between hidden/visible
   toggleReviewStatus(review) {
     this.authService.toggleReviewStatus(review)
     .subscribe(
@@ -56,6 +59,7 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  //Assign admin to a user
   assignAdmin(user) {
     this.authService.assignAdmin(user)
     .subscribe(
@@ -68,6 +72,7 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  //Get all users from backend, show user view and hide review view
   toggleUsers() {
     this.authService.getUsers()
     .subscribe(

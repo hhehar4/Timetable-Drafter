@@ -14,6 +14,7 @@ export class PopupComponent implements OnInit {
 
   constructor(private authService: AuthService, public dialogRef: MatDialogRef<PopupComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
+  //Gets all the reviews for the course this popup was opened on
   ngOnInit(): void {
     this.authService.getReviews(String(this.data.subject), String(this.data.catalog_nbr))
     .subscribe(
@@ -29,6 +30,7 @@ export class PopupComponent implements OnInit {
     );
   }
 
+  //Closes popup
   close() {
     this.dialogRef.close();
   }
