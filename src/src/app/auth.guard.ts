@@ -7,7 +7,7 @@ export class AuthGuard implements CanActivate {
 
     constructor (private authService: AuthService, private router: Router) {}
 
-    //Ensures user can only access links specific to their authorization
+    //Ensures user can only access links specific to their authorization, Implemented following this tutorial: https://www.youtube.com/watch?v=OILrJmjkId4
     canActivate() {
         if(!this.authService.loggedIn()) {
             return true;

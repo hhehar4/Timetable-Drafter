@@ -194,6 +194,7 @@ export class AuthService {
     return this.http.put(`/admin/assignAdmin/${this.authToken}`, user, httpOptions);
   }
 
+  //Logout(), loadToken(), and loggedIn() implemented to manage login status following this tutorial: https://www.youtube.com/watch?v=rt6VSxXL4_w
   //Clears local storage and saved user data
   logout() {
     this.authToken = null;

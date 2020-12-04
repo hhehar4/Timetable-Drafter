@@ -1,3 +1,4 @@
+//Implemented schema and functions following this tutorial: https://www.youtube.com/watch?v=1ZeDy2QI3OE
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 

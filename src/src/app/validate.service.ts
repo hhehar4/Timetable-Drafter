@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+//Implemented by following this tutorial: https://www.youtube.com/watch?v=bxZAPoeMr7U
 export class ValidateService {
 
   constructor() { }

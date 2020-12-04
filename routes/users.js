@@ -8,7 +8,7 @@ const { default: validator } = require('validator');
 
 dotenv.config();
 
-//Register user
+//Register user, Implemented by following this tutorial: https://www.youtube.com/watch?v=1ZeDy2QI3OE
 router.post('/register', (req, res, next) => {
     //Validate inputs
     if(validator.isEmail(validator.trim(req.body.email))) {
@@ -44,7 +44,7 @@ router.post('/register', (req, res, next) => {
     }
 });
 
-//Authenticate user login
+//Authenticate user login, Implemented by following this tutorial: https://www.youtube.com/watch?v=6pdFXmTfkeE
 router.post('/authenticate', (req, res, next) => {
     //Validate inputs
     if(validator.isEmail(validator.trim(req.body.email))) {
